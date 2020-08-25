@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href = "/assets/styles.css">
+    
+    <!-- data-tables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+    <title>Employee Database</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="/">Employee Database</a>
+    </nav>
+
+    <div class="row no-gutters mt-5">
+      <div class="col-md-2 bg-dark mt-2 pr-3 pt-4">
+        <ul class="nav flex-column ml-3 mb-5">
+          <li class="nav-item">
+            <a class="nav-link active text-white" href="/"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a><hr class="bg-secondary">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/employee_list"><i class="fas fa-user mr-2"></i>Employees List</a><hr class="bg-secondary">
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="/add_employee"><i class="fas fa-user-plus mr-2"></i>Add New Employee</a><hr class="bg-secondary">
+          </li>
+        </ul>
+    </div>
+      <div class="col md 10 p-5 pt-2">
+        <h3>
+          <i class="fas fa-user mr-2"></i>
+            Add New Employee<hr>
+        </h3>
+
+        <form method="POST" action = "/api/employee" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="username"><h5>Username</h5></label>
+            <input type="text" class="form-control" id="username" name = "username" placeholder="Enter Username" required>
+            <small class="form-text text-muted">Please enter your unique username (required)</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="first_name"><h5>First Name</h5></label>
+            <input type="text" class="form-control" id="first_name" name = "first_name" placeholder="Enter Your Firstname" required>
+            <small class="form-text text-muted">Please enter your firstname (required)</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="last_name"><h5>Last Name</h5></label>
+            <input type="text" class="form-control" id="last_name" name = "last_name" placeholder="Enter Your Lastname">
+            <small class="form-text text-muted">Please enter your lastname (if existed)</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="email"><h5>Email Address</h5></label>
+            <input type="email" class="form-control" id="email" name = "email" placeholder="Enter Your email" required>
+            <small class="form-text text-muted">Please enter your email address (required).</small>
+          </div><hr class="bg-secondary">
+
+          <label for="phone_type"><h5>Division</h5></label>
+          <div class="radio">
+            <label><input type="radio" name="division" checked value="Front-End">  Front-End</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="division" value="Back-End">  Back-End</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="division" value="Full-Stack">  Full-Stack</label>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="picture"><h5>Photo</h5></label>
+            <input type="file" class="form-control-file" id="picture" name = "picture">
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="street"><h5>Street Address</h5></label>
+            <input type="text" class="form-control" id="street" name = "street" placeholder="Enter Street Address" required>
+            <small class="form-text text-muted">Please enter street adress (required).</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="city"><h5>City Address</h5></label>
+            <input type="text" class="form-control" id="city" name = "city" placeholder="Enter City Address" required>
+            <small class="form-text text-muted">Please enter city adress (required).</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="province"><h5>Province Address</h5></label>
+            <input type="text" class="form-control" id="province" name = "province" placeholder="Enter Province Address" required>
+            <small class="form-text text-muted">Please enter province adress (required).</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="country"><h5>Country Address</h5></label>
+            <input type="text" class="form-control" id="country" name = "country" placeholder="Enter Country Address" required>
+            <small class="form-text text-muted">Please enter country adress (required).</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="postal_code"><h5>Postal Code</h5></label>
+            <input type="text" class="form-control" id="postal_code" name = "postal_code" placeholder="Enter Postal Code" required>
+            <small class="form-text text-muted">Please enter postal code (required).</small>
+          </div><hr class="bg-secondary">
+
+          <div class="form-group">
+            <label for="phone_number"><h5>Phone Number</h5></label>
+            <input type="text" class="form-control" id="phone_number" name = "phone_number" placeholder="Enter Phone Number" required>
+            <small class="form-text text-muted">Please enter phone number (required).</small>
+          </div><hr class="bg-secondary">
+
+          <label for="phone_type"><h5>Phone Type</h5></label>
+          <div class="radio">
+            <label><input type="radio" name="phone_type" checked value="Mobile Phone">  Mobile Phone</label>
+          </div>
+          <div class="radio">
+            <label><input type="radio" name="phone_type" value="Home Phone">  Home Phone</label>
+          </div><hr class="bg-secondary">
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>     
+      </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/assets/script.js"></script>
+    <script src="https://kit.fontawesome.com/6b8b4644cd.js" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> 
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href = "/assets/styles.css">
+    
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <title>Employee Database</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="/">Employee Database</a>
+    </nav>
+    <div class="row no-gutters mt-5">
+      <div class="col-md-2 bg-dark mt-2 pr-3 pt-4">
+        <ul class="nav flex-column ml-3 mb-5">
+            <li class="nav-item">
+                <a class="nav-link active text-white" href="/"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a><hr class="bg-secondary">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/employee_list"><i class="fas fa-user mr-2"></i>Employees List</a><hr class="bg-secondary">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/add_employee"><i class="fas fa-user-plus mr-2"></i>Add New Employee</a><hr class="bg-secondary">
+            </li>
+        </ul>
+      </div>
+      <div class="col md 10 p-5 pt-2">
+        <h3>
+          <i class="fas fa-user mr-2"></i>
+          Employee List<hr>
+        </h3>
+        <table id="example" class="display" style="width:100%">
+          <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <!-- <th>Gender</th> -->
+                <th>Email</th>
+                <!-- <th>Phone</th> -->
+                <!-- <th>Start Date</th>
+                <th>End Date</th> -->
+                <th>Address</th>
+                <th>Division</th>
+                <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% data.forEach(function(item){ %>
+              <tr>
+              <td><%= item.first_name %></td>
+              <td><%= item.last_name %></td>
+              <td><%= item.email %></td>
+              <td>
+                <%= item.Address.street %>,
+                <%= item.Address.city %>, 
+                <%= item.Address.province %>, 
+                <%= item.Address.country %>,
+              </td>
+              <td><%= item.division %></td>
+              <td>
+                  <a href="" class="btn btn-primary m-2" data-toggle="modal" data-target="#detail_<%= item.username %>"><i class="fas fa-info-circle mr-2"></i>Detail</a>
+                  <a href="" class="btn btn-primary m-2" data-toggle="modal" data-target="#update_<%= item.username %>"><i class="fas fa-user-edit mr-2"></i>Update</a>
+                  <!-- <a href="" class="btn btn-primary m-2" data-toggle="modal" data-target="#employeeDetail">Update</a> -->
+                  <form class="w3-container" method="POST" action = "/api/deleteAnEmployee">
+                      <input type="hidden" name = "username" value = "<%= item.username %>"/>
+                      <input type = "submit" class="btn btn-danger m-2" value = "delete" name = "submitDelete"/>
+                  </form>
+              </td>
+              </tr>
+              <div class="modal fade" id="detail_<%= item.username %>" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h3 class="modal-title" id="exampleModalLabel">
+                        <%= item.first_name %>
+                        <%= item.last_name %>
+                        </h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <img src="./uploads/<%= item.picture %>" style="width:100%;max-width:300px">
+                      <p><h4>Email :</h4> <%= item.email %></p><hr class="bg-secondary">
+                      <p><h4>Division :</h4> <%= item.division %></p><hr class="bg-secondary">
+                      <p><h4>Address :</h4> </p>
+                      <p><%= item.Address.street %>, <%= item.Address.city %>, <%= item.Address.province %>, <%= item.Address.country %><hr class="bg-secondary">
+                      <p><h4>Phone :</h4></p>
+                      <p>Phone Number : <%= item.Phone.phone_number %></p>
+                      <p>Phone Type : <%= item.Phone.phone_type %></p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal fade" id="update_<%= item.username %>" role="dialog">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h3 class="modal-title" id="exampleModalLabel">
+                        Update Employee Data
+                        </h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" action = "/api/updateEmployee" enctype="multipart/form-data">
+                        <input type="hidden" class="form-control"name = "id" value = "<%= item.id %>">
+                        <input type="hidden" class="form-control"name = "username" value = "<%= item.username %>">
+                        <div class="form-group">
+                          <label for="first_name"><h5>First Name</h5></label>
+                          <input type="text" class="form-control" id="first_name" name = "first_name" value = "<%= item.first_name %>" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="last_name"><h5>Last Name</h5></label>
+                          <input type="text" class="form-control" id="last_name" name = "last_name" value = "<%= item.last_name %>">
+                        </div>
+                        <div class="form-group">
+                          <label for="email"><h5>Email address</h5></label>
+                          <input type="email" class="form-control" id="email" name = "email" value = "<%= item.email %>" required>
+                        </div>
+                        <label for="phone_type"><h5>Division</h5></label>
+                        <div class="radio">
+                          <label><input type="radio" name="division" checked value="Front-End">  Front-End</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="division" value="Back-End">  Back-End</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="division" value="Full-Stack">  Full-Stack</label>
+                        </div>
+                        <div class="form-group">
+                          <label for="picture"><h5>Photo</h5></label>
+                          <input type="file" class="form-control-file" id="picture" name = "picture" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="street"><h5>Street Address</h5></label>
+                          <input type="text" class="form-control" id="street" name = "street" value = "<%= item.Address.street %>" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="city"><h5>City Address</h5></label>
+                          <input type="text" class="form-control" id="city" name = "city" value = "<%= item.Address.city %>" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="province"><h5>Province Address</h5></label>
+                          <input type="text" class="form-control" id="province" name = "province" value = "<%= item.Address.province %>" required>
+                          <small class="form-text text-muted">Please enter province adress (required).</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="country"><h5>Country Address</h5></label>
+                          <input type="text" class="form-control" id="country" name = "country" value = "<%= item.Address.country %>" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="postal_code"><h5>Postal Code</h5></label>
+                          <input type="text" class="form-control" id="postal_code" name = "postal_code" value = "<%= item.Address.postal_code %>" required>
+                          <small class="form-text text-muted">Please enter postal code (required).</small>
+                        </div>
+                        <div class="form-group">
+                          <label for="phone_number"><h5>Phone Number</h5></label>
+                          <input type="text" class="form-control" id="phone_number" name = "phone_number" value ="<%= item.Phone.phone_number %>" required>
+                        </div>
+              
+                        <label for="phone_type"><h5>Phone Type</h5></label>
+                        <div class="radio">
+                          <label><input type="radio" name="phone_type" checked value="Mobile Phone">  Mobile Phone</label>
+                        </div>
+                        <div class="radio">
+                          <label><input type="radio" name="phone_type" value="Home Phone">  Home Phone</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4">Update</button>
+                        
+                      </form>
+                      <button type="button" class="btn btn-secondary ml-3 mt-4" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <%}); %>
+          </tbody>
+          <tfoot>
+              <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <!-- <th>Gender</th> -->
+                  <th>Email</th>
+                  <!-- <th>Phone</th> -->
+                  <!-- <th>Start Date</th>
+                  <th>End Date</th> -->
+                  <th>Address</th>
+                  <th>Division</th>
+                  <th>Action</th>
+              </tr>
+          </tfoot>
+    </table>
+          
+      
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/assets/script.js"></script>
+    <script src="https://kit.fontawesome.com/6b8b4644cd.js" crossorigin="anonymous"></script>
+    
+    <script>
+      $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    
+</body>
+</html>
